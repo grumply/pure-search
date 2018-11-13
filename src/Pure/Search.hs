@@ -1,5 +1,5 @@
-{-# LANGUAGE PatternSynonyms, RecordWildCards, ExistentialQuantification #-}
-module Pure.Search where
+{-# LANGUAGE PatternSynonyms, RecordWildCards, ExistentialQuantification, MagicHash, ScopedTypeVariables #-}
+module Pure.Search (pattern Search, SearchTheme(..), Search()) where
 
 import Pure
 import qualified Pure.Data.Txt.Search as Search
@@ -22,12 +22,13 @@ data Search a = Search_
 
 instance (Search.Search a, Typeable a) => Pure (Search a) where
     view = LibraryComponentIO $ \self -> 
-        let search Search_ {..} = pure (filter (Search.contains needle) haystack)
+        let 
+            search Search_ {..} = Search.containing needle haystack
         in
             def
-                { construct = ask self >>= search
-                , receive   = \np _ -> search np
-                , render    = \Search_ {..} found -> 
+                { construct = ask self >>= pure . search
+                , receive   = \np _ -> pure (search np)
+                , render    = \Search_ {..} found ->
                     case theme of
                         SearchTheme t ->
                             Div <| Theme t |>
