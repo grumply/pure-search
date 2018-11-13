@@ -1,5 +1,5 @@
 {-# LANGUAGE PatternSynonyms, RecordWildCards, ExistentialQuantification, MagicHash, ScopedTypeVariables #-}
-module Pure.Search (pattern Search, SearchTheme(..), Search()) where
+module Pure.Search (pattern Search, SearchTheme(..), Search(), module Search) where
 
 import Pure
 import qualified Pure.Data.Txt.Search as Search
