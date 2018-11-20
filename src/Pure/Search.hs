@@ -7,23 +7,24 @@ import Pure.Theme
 
 import Data.Typeable
 
-pattern Search :: (Search.Search a, Typeable a) => () => SearchTheme -> Txt -> [a] -> (a -> View) -> View -> View
-pattern Search theme needle haystack renderer placeholder = View Search_ {..}
+pattern Search :: (Search.Search a, Typeable a) => () => Search.SearchOptions -> SearchTheme -> Txt -> [a] -> (a -> View) -> View -> View
+pattern Search options theme needle haystack renderer placeholder = View Search_ {..}
 
 data SearchTheme = forall t. Themeable t => SearchTheme t
 
-data Search a = Search_ 
-    { theme       :: SearchTheme
-    , needle      :: Txt 
-    , haystack    :: [a] 
+data Search a = Search_
+    { options     :: Search.SearchOptions
+    , theme       :: SearchTheme
+    , needle      :: Txt
+    , haystack    :: [a]
     , renderer    :: a -> View
     , placeholder :: View
     }
 
 instance (Search.Search a, Typeable a) => Pure (Search a) where
-    view = LibraryComponentIO $ \self -> 
-        let 
-            search Search_ {..} = Search.containing needle haystack
+    view = LibraryComponentIO $ \self ->
+        let
+            search Search_ {..} = Search.containing options needle haystack
         in
             def
                 { construct = ask self >>= pure . search
