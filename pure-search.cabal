@@ -1,21 +1,25 @@
 name:                pure-search
-version:             0.7.0.0
+version:             0.8.0.0
 synopsis:            A generic filtering search component based on pure-txt-search.
-homepage:            github.com/grumply/pure-txt-interpolate
+homepage:            purehs.org/doc/pure-search
 license:             BSD3
 license-file:        LICENSE
-author:              Sean Mackenzie
-maintainer:          sean@grump.ly
+author:              Sean Hickman
+maintainer:          sean@grumply.com
 category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
 
+source-repository head
+  type: git
+  location: https://github.com/grumply/pure-search.git
+
 library
   build-depends:
-    base >= 4.8 && < 5,
-    pure >= 0.7 && < 1,
-    pure-theme >= 0.7 && < 1,
-    pure-txt-search >= 0.7 && < 1
+    base,
+    pure,
+    pure-theme,
+    pure-txt-search
 
   exposed-modules:
     Pure.Search
