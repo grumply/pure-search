@@ -20,7 +20,7 @@ data Search a = Search_
     }
 
 instance (Search.Search a, Typeable a) => Pure (Search a) where
-    view = LibraryComponentIO $ \self ->
+    view = Component $ \self ->
         let
             search Search_ {..} = Search.containing options needle haystack
         in
